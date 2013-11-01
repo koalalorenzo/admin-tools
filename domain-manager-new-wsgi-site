@@ -1,0 +1,60 @@
+#!/bin/bash
+if [ -z "$1" ]
+    then
+    echo "No SiteName given"
+    exit 1
+fi
+
+if [ -z "$2" ]
+    then
+    echo "No WSGI path given"
+    exit 1
+fi
+
+
+if [ -z "$3" ]
+    then
+    echo "No username (The user that will run the wsgi script)  given"
+    exit 1
+fi
+
+site_name=$1
+wsgi_path=$2
+username_to_use=$3
+
+echo "Generating $site_name:"
+echo -n "   - Apache config: "
+
+sudo rm -rf /var/domains/confs/$site_name &> /dev/null
+sudo cat >> /var/domains/confs/$site_name << EOF
+<VirtualHost *:80>
+        ServerAdmin koalalorenzo@gmail.com
+        ServerName  $site_name
+        ServerAlias www.$site_name
+
+        WSGIDaemonProcess $username_to_use user=$username_to_use group=$username_to_use threads=5
+        WSGIScriptAlias / $wsgi_path
+    
+        <Directory /var/domains/sites/$site_name>
+            WSGIProcessGroup $username_to_use
+            WSGIApplicationGroup %{GLOBAL}
+            Order deny,allow
+            Allow from all
+        </Directory>
+    
+        # Logfiles
+        ErrorLog  /var/domains/sites/$site_name/logs/error.log
+        CustomLog /var/domains/sites/$site_name/logs/access.log combined
+</VirtualHost>
+EOF
+
+sudo ln -s /var/domains/confs/$site_name /etc/apache2/sites-available/$site_name &>/dev/null
+echo "done"
+
+echo -n "   - Enabling Apache domain: "
+sudo a2ensite $site_name >> /dev/null
+echo "done"
+echo ""
+echo "Reload apache to enable the domain with this command:"
+echo "   sudo service apache2 reload"
+

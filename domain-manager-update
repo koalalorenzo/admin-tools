@@ -1,0 +1,6 @@
+#!/bin/bash
+
+cd /var/domains/tools/
+sudo hg pull
+sudo hg update --clean
+sudo bash /var/domains/tools/domain-manager-fix-permissions

@@ -1,0 +1,13 @@
+#!/bin/bash
+
+cd /var/domains/backups/
+
+#for file in /var/domains/backups/torrents/
+#do
+#    sudo transmission-cli -U -er -w /var/domains/backups/ /var/domains/backups/torrents/$file &
+#done
+
+sudo chmod 755 /var/domains/backups/torrents/*
+
+sudo screen -S bktd -X quit &> /dev/null
+sudo screen -S bktd transmission-daemon --watch-dir /var/domains/backups/torrents/ -ep --download-dir /var/domains/backups/ -f -i 0.0.0.0 -r 0.0.0.0 -T -a *.*.*.* -P 51413 -p 9091 --no-incomplete-dir -y -m 

@@ -1,0 +1,84 @@
+#!/bin/bash
+
+if [ -z "$1" ]
+    then
+    echo "No store address ( site ) supplied"
+    exit 1
+fi
+
+if [ -z "$2" ]
+    then
+    echo "No name of the repo"
+    exit 1
+fi
+
+if [ -z "$3" ]
+    then
+    echo "No Owner ( Ex: koalalorenzo@gmail.com )"
+    exit 1
+fi
+
+if [ -z "$4" ]
+    then
+    echo "No description"
+    exit 1
+fi
+
+
+site_name=$1
+repo_name=$2
+owner=$3
+description=$4
+cd /var/domains/sites/$site_name/authorizations/
+sudo cp /var/domains/sites/$site_name/hgusers /var/domains/sites/$site_name/authorizations/$repo_name
+cd /var/domains/sites/$site_name/www
+sudo mkdir $repo_name
+cd $repo_name
+sudo hg init
+
+sudo sed "$ i\
+    \<Location /$repo_name\> \n\
+        AuthType Basic \n\
+        AuthName '$repo_name Mercurial repositories \n\
+        AuthUserFile /var/domains/sites/$site_name/authorizations/$repo_name \n\
+        Require valid-user \n\
+    \</Location\>\
+" /var/domains/confs/$site_name >> /var/domains/confs/$site_name.new
+mv /var/domains/confs/$site_name.new /var/domains/confs/$site_name
+
+cat << EOF >> ./.hg/hgrc
+[web]
+contact = $3
+description = $4
+EOF
+
+cat << EOF >> ./.hgignore
+syntax: glob
+*~
+*.pyc
+*.pyo
+.DS_Store
+.nose
+*.egg-info
+*.bak
+*.rej
+*$py.class
+*.orig
+example.cfg
+.coverage
+nosetests.xml
+xunit.xml
+_env
+doc/.build
+dist
+build
+.noseids
+.tox
+.*.sw[nop]
+EOF
+sudo hg add .hgignore
+sudo hg commit -m "Primo commit" -u admin
+sudo chown -R www-data:www-data /var/domains/sites/$site_name
+echo "Repo created. Reload apache configuration:"
+echo "   sudo service apache2 reload"
+

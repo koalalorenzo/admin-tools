@@ -1,0 +1,11 @@
+#!/bin/bash
+
+sudo service apache2 stop
+sudo service mysql restart
+sudo mkdir -p /var/domains/backups/$(date +%d-%m-%Y)/
+sleep 5
+sudo su -c 'mysqldump -u root -p"khyNmfdFvNpmInIjHIuBNKfg" --all-databases | gzip > /var/domains/backups/$(date +%d-%m-%Y)/databases.sql.gz'
+sudo tar -cvpjf /var/domains/backups/$(date +%d-%m-%Y)/files.tar.bz2 /var/domains --exclude=*.log --exclude=*.pyc --exclude=/var/domains/backups
+sudo service apache2 restart
+
+sudo transmission-create /var/domains/backups/$(date +%d-%m-%Y)/ -t "udp://tracker.openbittorrent.com:80" -t "udp://tracker.publicbt.com:80/announce" -o /var/domains/backups/torrents/$(date +%d-%m-%Y).torrent 

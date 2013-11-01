@@ -1,0 +1,13 @@
+#!/bin/bash
+
+sudo chmod +x -R /var/domains/tools/
+sudo chown www-data:www-data -R /var/domains/sites
+sudo chmod 655 -R /var/domains/backups
+sudo chmod 755 -R /var/domains/backups/torrents/
+
+for site in /var/domains/sites/*
+do
+    echo "Permissions on $site" 
+    sudo chmod 755 $site/www/
+done
+

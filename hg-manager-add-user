@@ -1,0 +1,26 @@
+#!/bin/bash
+
+if [ -z "$1" ]
+    then
+    echo "No store address ( site ) supplied"
+    exit 1
+fi
+
+if [ -z "$2" ]
+    then
+    echo "No repository supplied"
+    exit 1
+fi
+
+if [ -z "$3" ]
+    then
+    echo "No username supplied"
+    exit 1
+fi
+
+cd /var/domains/sites/$1/authorizations/
+touch $2
+sudo htpasswd -m $2 $3
+sudo chown -R www-data:www-data /var/domains/sites/$1 
+sudo chmod 777 /var/domains/sites/$1/authorizations -R
+
