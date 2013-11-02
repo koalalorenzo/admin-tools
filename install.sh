@@ -1,4 +1,6 @@
 #!/bin/bash
+# See: http://projects.setale.me/admin-tools/
+# Version 1
 
 sudo mkdir -p /var/domains/sites
 sudo mkdir -p /var/domains/confs
@@ -15,9 +17,8 @@ sudo service transmission-daemon stop
 sudo echo 'manual' | sudo tee /etc/init/transmission-daemon.override
 
 sudo git clone https://github.com/koalalorenzo/admin-tools.git /var/domains/tools
-sudo bash /var/domains/tools/domain-manager-fix-permissions
-
 sudo cp /var/domains/tools/settings.cfg /etc/admin-tools.settings.cfg
+sudo bash /var/domains/tools/domain-manager-fix-permissions
 
 export PATH=$PATH:/var/domains/tools/
 cat << EOF >> /etc/profile
