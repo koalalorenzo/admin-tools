@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source /var/domains/tools/common.sh
+
 cd /var/domains/tools/
 sudo git reset --hard HEAD
 sudo git pull

@@ -1,6 +1,7 @@
 #!/bin/bash
 
 source /etc/admin-tools.settings.cfg
+source /var/domains/tools/common.sh
 
 
 if [ -z "$1" ]
