@@ -72,7 +72,7 @@ check_os(){
 check_if_already_installed(){
     if [ -f /var/domains/tools/install.sh ]; then 
         echo_failure "You already installed admin-tools."
-        echo "Use domain-manager-update to get a new version."
+        echo "Use admin-tools-update to get a new version."
         exit 1
     fi;
 }
@@ -139,5 +139,5 @@ install_dependencies
 create_directories
 install
 configure
-bash /var/domains/tools/domain-manager-fix-permissions
+bash /var/domains/tools/admin-tools-fix-permissions
 finish

@@ -6,4 +6,4 @@ check_user
 cd /var/domains/tools/
 git reset --hard HEAD
 git pull
-bash /var/domains/tools/domain-manager-fix-permissions
+bash /var/domains/tools/admin-tools-fix-permissions
