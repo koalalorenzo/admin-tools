@@ -28,7 +28,6 @@ echo_failure() {
     [ "$BOOTUP" = "color" ] && $SETCOLOR_NORMAL
     echo -n "]"
     echo ""
-    return 1
 }
 
 echo_warning() {
@@ -40,7 +39,6 @@ echo_warning() {
     [ "$BOOTUP" = "color" ] && $SETCOLOR_NORMAL
     echo -n "]"
     echo ""
-    return 1
 }
 
 echo_success() {
@@ -52,7 +50,6 @@ echo_success() {
     [ "$BOOTUP" = "color" ] && $SETCOLOR_NORMAL
     echo -n "]"
     echo ""
-    return 1
 }
 
 check_user(){
@@ -112,6 +109,12 @@ install(){
 }
 
 configure(){
+    export PATH=$PATH:/var/domains/tools/
+    echo "" >> /etc/profile
+    echo "## koalalorenzo's admin tools path:" >> /etc/profile
+    echo "PATH=$PATH:/var/domains/tools/" >> /etc/profile
+    echo "export PATH" >> /etc/profile
+
     if [ -f  /etc/admin-tools.settings.cfg ]; then
         datetime_now=$(date +%Y%m%d%M%S)
         cp /etc/admin-tools.settings.cfg /etc/admin-tools.settings.old.$datetime_now.cfg
@@ -121,14 +124,6 @@ configure(){
     else
         cp /var/domains/tools/settings.cfg /etc/admin-tools.settings.cfg
     fi
-    bash /var/domains/tools/domain-manager-fix-permissions
-
-    export PATH=$PATH:/var/domains/tools/
-    echo "" >> /etc/profile
-    echo "## koalalorenzo's admin tools path:" >> /etc/profile
-    echo "PATH=$PATH:/var/domains/tools/" >> /etc/profile
-    echo "export PATH" >> /etc/profile
-
 }
 
 finish(){
@@ -145,4 +140,5 @@ install_dependencies
 create_directories
 install
 configure
+bash /var/domains/tools/domain-manager-fix-permissions
 finish
