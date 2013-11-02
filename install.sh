@@ -90,7 +90,6 @@ install_something(){
 }
 
 install_dependencies(){
-    install_something dialog
     install_something beep
     install_something apache2
     install_something libapache2-mod-wsgi
@@ -114,16 +113,11 @@ install(){
 
 configure(){
     if [ -f  /etc/admin-tools.settings.cfg ]; then
-        dialog --title "Configuration already there" \
-            --backtitle "admin-tools installations" \
-            --yesno "The file /etc/admin-tools is already present. Would you like to replace it?" 7 60
-        response=$?
-        case $response in
-           0) cp /var/domains/tools/settings.cfg /etc/admin-tools.settings.cfg;;
-           1) echo "File not replaced.";;
-           255) echo "File will be replaced";;
-           *) echo "File not replaced.";;
-        esac
+        datetime_now=$(date +%Y%m%d%M%S)
+        cp /etc/admin-tools.settings.cfg /etc/admin-tools.settings.old.$datetime_now.cfg
+        cp /var/domains/tools/settings.cfg /etc/admin-tools.settings.cfg
+        echo_warning "/var/domains/tools/settings.cfg replaced."
+        echo "The old file is here: /etc/admin-tools.settings.old.${datetime_now}.cfg"
     else
         cp /var/domains/tools/settings.cfg /etc/admin-tools.settings.cfg
     fi
