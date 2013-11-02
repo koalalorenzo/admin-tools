@@ -55,8 +55,6 @@ echo_success() {
     return 1
 }
 
-# Installation functions
-
 check_user(){
     if [ $SUDO_USER ]; then user=$SUDO_USER; else user=`whoami`; fi
     if [[ "$user" != "root" ]]; then
@@ -64,6 +62,8 @@ check_user(){
         exit 1;
     fi
 }
+
+# Installation functions
 
 check_os(){
     if [ "$UNAME" != "Linux" ] ; then
