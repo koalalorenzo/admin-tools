@@ -14,7 +14,7 @@ sudo apt-get install transmission-cli transmission-daemon
 sudo service transmission-daemon stop
 sudo echo 'manual' | sudo tee /etc/init/transmission-daemon.override
 
-sudo git clone git@github.com:koalalorenzo/admin-tools.git /var/domains/tools
+sudo git clone https://github.com/koalalorenzo/admin-tools.git /var/domains/tools
 sudo bash /var/domains/tools/domain-manager-fix-permissions
 
 sudo cp /var/domains/tools/settings.cfg /etc/admin-tools.settings.cfg
