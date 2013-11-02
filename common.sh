@@ -45,7 +45,8 @@ echo_success() {
 }
 
 check_user(){
-    if [ $SUDO_USER ]; then user=$SUDO_USER; else user=`whoami`; fi
+    #if [ $SUDO_USER ]; then user=$SUDO_USER; else user=`whoami`; fi
+    user=`whoami`
     if [[ "$user" != "root" ]]; then
         echo_failure "The installation must be launched by root or via sudo command"
         exit 1;
