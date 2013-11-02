@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source /etc/admin-tools.settings.cfg
+
 cd /var/domains/backups/
 
 #for file in /var/domains/backups/torrents/

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source /etc/admin-tools.settings.cfg
+
 if [ -z "$1" ]
     then
     echo "No argument supplied"
@@ -13,7 +15,7 @@ echo -n "   - Apache config: "
 sudo rm -rf /var/domains/confs/$site_name &> /dev/null
 sudo cat >> /var/domains/confs/$site_name << EOF
 <VirtualHost *:80>
-    ServerAdmin koalalorenzo@gmail.com
+    ServerAdmin $ADMINTOOLS_DEFAULT_SERVER_ADMIN
     ServerName  $site_name
     ServerAlias www.$site_name
 
@@ -45,9 +47,10 @@ sudo cat >> /var/domains/sites/$site_name/hgweb.config << EOF
 /var/domains/sites/$site_name/www = /var/domains/sites/$site_name/www
 
 [web]
-allow_push = koalalorenzo
+allow_push = $ADMINTOOLS_MERCURIAL_USERNAME
 push_ssl = false
 EOF
+
 sudo cat >> /var/domains/sites/$site_name/hgweb.wsgi << EOF
 from mercurial.hgweb.hgweb_mod import hgweb
 from mercurial.hgweb.hgwebdir_mod import hgwebdir

@@ -1,5 +1,8 @@
 #!/bin/bash
 
+source /etc/admin-tools.settings.cfg
+
+
 if [ -z "$1" ]
     then
     echo "No store address ( site ) supplied"

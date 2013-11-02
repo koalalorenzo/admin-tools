@@ -1,4 +1,7 @@
 #!/bin/bash
+
+source /etc/admin-tools.settings.cfg
+
 if [ -z "$1" ]
     then
     echo "No SiteName given"
@@ -28,7 +31,7 @@ echo -n "   - Apache config: "
 sudo rm -rf /var/domains/confs/$site_name &> /dev/null
 sudo cat >> /var/domains/confs/$site_name << EOF
 <VirtualHost *:80>
-        ServerAdmin koalalorenzo@gmail.com
+        ServerAdmin $ADMINTOOLS_DEFAULT_SERVER_ADMIN
         ServerName  $site_name
         ServerAlias www.$site_name
 
