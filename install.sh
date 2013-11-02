@@ -67,14 +67,16 @@ check_user(){
 
 check_os(){
     if [ "$UNAME" != "Linux" ] ; then
-        echo_failure "Your OS is not supported! This script works on Linux (Ubuntu, Deban or Archlinux)"
+        echo_failure "Your OS is not supported!"
+        echo "This script works on Linux (Ubuntu, Deban or Archlinux)"
         exit 1
     fi
 }
 
 check_if_already_installed(){
     if [ -f /var/domains/tools/install.sh ]; then 
-        echo_failure "You already installed admin-tools. Use domain-manager-update to get a new version."
+        echo_failure "You already installed admin-tools."
+        echo "Use domain-manager-update to get a new version."
         exit 1
     fi;
 }
@@ -119,7 +121,8 @@ configure(){
         case $response in
            0) cp /var/domains/tools/settings.cfg /etc/admin-tools.settings.cfg;;
            1) echo "File not replaced.";;
-           255) exit 1;;
+           255) echo "File will be replaced";;
+           *) echo "File not replaced.";;
         esac
     else
         cp /var/domains/tools/settings.cfg /etc/admin-tools.settings.cfg
@@ -127,13 +130,18 @@ configure(){
     bash /var/domains/tools/domain-manager-fix-permissions
 
     export PATH=$PATH:/var/domains/tools/
-    cat << EOF >> /etc/profile
+    echo "" >> /etc/profile
+    echo "## koalalorenzo's admin tools path:" >> /etc/profile
+    echo "PATH=$PATH:/var/domains/tools/" >> /etc/profile
+    echo "export PATH" >> /etc/profile
 
-## koalalorenzo's admin tools path:
-PATH=$PATH:/var/domains/tools/
-export PATH
+}
 
-EOF    
+finish(){
+    if [ -f /usr/bin/beep ]; then
+        beep -f 523.2 -l 138 -n -f 392.0 -l 138 -n -f 329.6 -l 138 -n -f 523.2 -l 138 -n -f 392.0 -l 138 -n -f 329.6 -l 138 -n -f 523.2 -l 828 -n -f 554.4 -l 138 -n -f 415.3 -l 138 -n -f 349.2 -l 138 -n -f 554.4 -l 138 -n -f 415.3 -l 138 -n -f 349.2 -l 138 -n -f 554.4 -l 828 -n -f 622.2 -l 138 -n -f 466.2 -l 138 -n -f 392.0 -l 138 -n -f 622.2 -l 138 -n -f 466.2 -l 138 -n -f 392.0 -l 138 -n -f 622.2 -l 414 -n -f 698.4 -l 138 -n -f 698.4 -l 138 -n -f 698.4 -l 138 -n -f 792 -l 1104
+    fi
+    echo_success "Installation completed"
 }
 
 # The magic:
@@ -142,7 +150,5 @@ check_if_already_installed
 install_dependencies
 create_directories
 install
-
-if [ -f /usr/bin/beep ]; then
-    beep -f 523.2 -l 138 -n -f 392.0 -l 138 -n -f 329.6 -l 138 -n -f 523.2 -l 138 -n -f 392.0 -l 138 -n -f 329.6 -l 138 -n -f 523.2 -l 828 -n -f 554.4 -l 138 -n -f 415.3 -l 138 -n -f 349.2 -l 138 -n -f 554.4 -l 138 -n -f 415.3 -l 138 -n -f 349.2 -l 138 -n -f 554.4 -l 828 -n -f 622.2 -l 138 -n -f 466.2 -l 138 -n -f 392.0 -l 138 -n -f 622.2 -l 138 -n -f 466.2 -l 138 -n -f 392.0 -l 138 -n -f 622.2 -l 414 -n -f 698.4 -l 138 -n -f 698.4 -l 138 -n -f 698.4 -l 138 -n -f 792 -l 1104
-fi
+configure
+finish
