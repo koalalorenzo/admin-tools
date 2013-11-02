@@ -2,13 +2,14 @@
 
 source /etc/admin-tools.settings.cfg
 source /var/domains/tools/common.sh
+check_user
 
-sudo service apache2 stop
-sudo service mysql restart
-sudo mkdir -p /var/domains/backups/$(date +%Y%m%d)/
+service apache2 stop
+service mysql restart
+mkdir -p /var/domains/backups/$(date +%Y%m%d)/
 sleep 5
-sudo su -c 'mysqldump -u $ADMINTOOLS_MYSQL_ROOT_ACCOUNT -p"$ADMINTOOLS_MYSQL_PASSWORD" --all-databases | gzip > /var/domains/backups/$(date +%Y%m%d)/databases.sql.gz'
-sudo tar -cvpjf /var/domains/backups/$(date +%Y%m%d)/files.tar.bz2 /var/domains --exclude=*.log --exclude=*.pyc --exclude=/var/domains/backups
-sudo service apache2 restart
+mysqldump -u $ADMINTOOLS_MYSQL_ROOT_ACCOUNT -p"$ADMINTOOLS_MYSQL_PASSWORD" --all-databases | gzip > /var/domains/backups/$(date +%Y%m%d)/databases.sql.gz
+tar -cvpjf /var/domains/backups/$(date +%Y%m%d)/files.tar.bz2 /var/domains --exclude=*.log --exclude=*.pyc --exclude=/var/domains/backups
+service apache2 restart
 
-sudo transmission-create /var/domains/backups/$(date +%Y%m%d)/ -t "udp://tracker.openbittorrent.com:80" -t "udp://tracker.publicbt.com:80/announce" -o /var/domains/backups/torrents/$(date +%Y%m%d).torrent 
+transmission-create /var/domains/backups/$(date +%Y%m%d)/ -t "udp://tracker.openbittorrent.com:80" -t "udp://tracker.publicbt.com:80/announce" -o /var/domains/backups/torrents/$(date +%Y%m%d).torrent 

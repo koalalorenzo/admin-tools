@@ -5,20 +5,20 @@ source /var/domains/tools/common.sh
 
 if [ -z "$1" ]
     then
-    echo "No SiteName given"
+    echo_failure "No SiteName given"
     exit 1
 fi
 
 if [ -z "$2" ]
     then
-    echo "No WSGI path given"
+    echo_failure "No WSGI path given"
     exit 1
 fi
 
 
 if [ -z "$3" ]
     then
-    echo "No username (The user that will run the wsgi script)  given"
+    echo_failure "No username (The user that will run the wsgi script)  given"
     exit 1
 fi
 
@@ -29,8 +29,8 @@ username_to_use=$3
 echo "Generating $site_name:"
 echo -n "   - Apache config: "
 
-sudo rm -rf /var/domains/confs/$site_name &> /dev/null
-sudo cat >> /var/domains/confs/$site_name << EOF
+rm -rf /var/domains/confs/$site_name &> /dev/null
+cat >> /var/domains/confs/$site_name << EOF
 <VirtualHost *:80>
         ServerAdmin $ADMINTOOLS_DEFAULT_SERVER_ADMIN
         ServerName  $site_name
@@ -52,13 +52,14 @@ sudo cat >> /var/domains/confs/$site_name << EOF
 </VirtualHost>
 EOF
 
-sudo ln -s /var/domains/confs/$site_name /etc/apache2/sites-available/$site_name &>/dev/null
-echo "done"
+ln -s /var/domains/confs/$site_name /etc/apache2/sites-available/$site_name &>/dev/null
+echo_success
 
 echo -n "   - Enabling Apache domain: "
-sudo a2ensite $site_name >> /dev/null
-echo "done"
+a2ensite $site_name >> /dev/null
+echo_success
+
 echo ""
 echo "Reload apache to enable the domain with this command:"
-echo "   sudo service apache2 reload"
+echo "   service apache2 reload"
 

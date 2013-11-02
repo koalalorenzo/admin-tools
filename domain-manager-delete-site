@@ -2,10 +2,11 @@
 
 source /etc/admin-tools.settings.cfg
 source /var/domains/tools/common.sh
+check_user
 
 if [ -z "$1" ]
     then
-    echo "No SiteName"
+    echo_failure "No SiteName"
     exit 1
 fi
 site_name=$1
@@ -13,14 +14,14 @@ site_name=$1
 echo "Deleting $site_name:"
 echo -n "   - Disabling Apache config: "
 
-sudo a2dissite $site_name >> /dev/null
-sudo service apache2 reload &> /dev/null
+a2dissite $site_name >> /dev/null
+service apache2 reload &> /dev/null
 
-echo "done"
+echo_success
 
 echo -n "   - Deleting Apache config: "
 
-sudo rm -rf /var/domains/confs/$site_name &> /dev/null
-sudo rm /etc/apache2/sites-available/$site_name &>/dev/null
+rm -rf /var/domains/confs/$site_name &> /dev/null
+rm /etc/apache2/sites-available/$site_name &>/dev/null
 
-echo "done"
+echo_success

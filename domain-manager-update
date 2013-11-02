@@ -1,8 +1,9 @@
 #!/bin/bash
 
 source /var/domains/tools/common.sh
+check_user
 
 cd /var/domains/tools/
-sudo git reset --hard HEAD
-sudo git pull
-sudo bash /var/domains/tools/domain-manager-fix-permissions
+git reset --hard HEAD
+git pull
+bash /var/domains/tools/domain-manager-fix-permissions

@@ -2,23 +2,24 @@
 
 source /etc/admin-tools.settings.cfg
 source /var/domains/tools/common.sh
+check_user
 
 
 if [ -z "$1" ]
     then
-    echo "No store address ( site ) supplied"
+    echo_failure "No store address ( site ) supplied"
     exit 1
 fi
 
 if [ -z "$2" ]
     then
-    echo "No repository supplied"
+    echo_failure "No repository supplied"
     exit 1
 fi
 
 if [ -z "$3" ]
     then
-    echo "No username supplied"
+    echo_failure "No username supplied"
     exit 1
 fi
 

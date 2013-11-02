@@ -2,15 +2,16 @@
 
 source /etc/admin-tools.settings.cfg
 source /var/domains/tools/common.sh
+check_user
 
-sudo chmod +x -R /var/domains/tools/
-sudo chown www-data:www-data -R /var/domains/sites
-sudo chmod 655 -R /var/domains/backups
-sudo chmod 755 -R /var/domains/backups/torrents/
+chmod +x -R /var/domains/tools/
+chown www-data:www-data -R /var/domains/sites
+chmod 655 -R /var/domains/backups
+chmod 755 -R /var/domains/backups/torrents/
 
 for site in /var/domains/sites/*
 do
-    echo "Permissions on $site" 
-    sudo chmod 755 $site/www/
+    echo_success "Permissions on $site" 
+    chmod 755 $site/www/
 done
 

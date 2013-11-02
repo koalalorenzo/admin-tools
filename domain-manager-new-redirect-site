@@ -5,12 +5,12 @@ source /var/domains/tools/common.sh
 
 if [ -z "$1" ]
     then
-    echo "No SiteName"
+    echo_failure "No SiteName"
     exit 1
 fi
 if [ -z "$2" ]
     then
-    echo "No Redirect URL"
+    echo_failure "No Redirect URL"
     exit 1
 fi
 
@@ -31,11 +31,12 @@ sudo cat >> /var/domains/confs/$site_name << EOF
 </VirtualHost>
 EOF
 sudo ln -s /var/domains/confs/$site_name /etc/apache2/sites-available/$site_name &>/dev/null
-echo "done"
+echo_success
 
 echo -n "   - Enabling Apache domain: "
 sudo a2ensite $site_name >> /dev/null
-echo "done"
+echo_success
+
 echo ""
 echo "Reload apache to enable the domain with this command:"
 echo "   sudo service apache2 reload"

@@ -2,11 +2,9 @@
 # See: http://projects.setale.me/admin-tools/
 # Version 2
 
-
 UNAME=$(uname)
 set -e
 set -u
-
 
 ## REQUIREMENTS
 # required variables

@@ -2,28 +2,29 @@
 
 source /etc/admin-tools.settings.cfg
 source /var/domains/tools/common.sh
+check_user
 
 if [ -z "$1" ]
     then
-    echo "No store address ( site ) supplied"
+    echo_failure "No store address ( site ) supplied"
     exit 1
 fi
 
 if [ -z "$2" ]
     then
-    echo "No name of the repo"
+    echo_failure "No name of the repo"
     exit 1
 fi
 
 if [ -z "$3" ]
     then
-    echo "No Owner ( Ex: koalalorenzo@gmail.com )"
+    echo_failure "No Owner ( Ex: koalalorenzo@gmail.com )"
     exit 1
 fi
 
 if [ -z "$4" ]
     then
-    echo "No description"
+    echo_failure "No description"
     exit 1
 fi
 
