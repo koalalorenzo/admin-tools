@@ -27,6 +27,14 @@ cat >> /var/domains/confs/$site_name << EOF
         ErrorLog  /var/domains/sites/$site_name/logs/error.log
         CustomLog /var/domains/sites/$site_name/logs/access.log combined
 </VirtualHost>
+
+<Directory /var/domains/sites/$site_name/www/>
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride All
+        Order allow,deny
+        allow from all
+</Directory>
+
 EOF
 ln -s /var/domains/confs/$site_name /etc/apache2/sites-available/$site_name &>/dev/null
 echo_success
